@@ -1,0 +1,60 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['profile', 'tasks', 'weights', 'favorites', 'preferences'])
+        && request.resource.data.keys().hasAll(['profile', 'tasks', 'weights', 'favorites', 'preferences'])
+        && (request.resource.data.profile == null || (
+          request.resource.data.profile is map
+          && request.resource.data.profile.keys().hasOnly(['gender', 'age', 'heightCm', 'weightKg', 'targetWeightKg', 'activity', 'goal', 'healthConcern'])
+          && request.resource.data.profile.keys().hasAll(['gender', 'age', 'heightCm', 'weightKg', 'activity', 'goal', 'healthConcern'])
+          && request.resource.data.profile.gender in ['male', 'female']
+          && request.resource.data.profile.age is int
+          && request.resource.data.profile.age >= 18
+          && request.resource.data.profile.age <= 120
+          && request.resource.data.profile.heightCm is number
+          && request.resource.data.profile.heightCm >= 100
+          && request.resource.data.profile.heightCm <= 250
+          && request.resource.data.profile.weightKg is number
+          && request.resource.data.profile.weightKg >= 25
+          && request.resource.data.profile.weightKg <= 300
+          && (!('targetWeightKg' in request.resource.data.profile) || (
+            request.resource.data.profile.targetWeightKg is number
+            && request.resource.data.profile.targetWeightKg >= 25
+            && request.resource.data.profile.targetWeightKg <= 300
+          ))
+          && request.resource.data.profile.activity in ['sedentary', 'light', 'moderate', 'active']
+          && request.resource.data.profile.goal in ['loss', 'gain']
+          && request.resource.data.profile.healthConcern is bool
+        ))
+        && request.resource.data.tasks is list
+        && request.resource.data.tasks.size() <= 1000
+        && request.resource.data.weights is list
+        && request.resource.data.weights.size() <= 1000
+        && request.resource.data.favorites is list
+        && request.resource.data.favorites.size() <= 100
+        && request.resource.data.preferences is map
+        && request.resource.data.preferences.keys().hasOnly(['favoriteIngredients', 'excludedIngredients', 'dailyFoodBudget'])
+        && request.resource.data.preferences.keys().hasAll(['favoriteIngredients', 'excludedIngredients', 'dailyFoodBudget'])
+        && request.resource.data.preferences.favoriteIngredients is list
+        && request.resource.data.preferences.favoriteIngredients.size() <= 20
+        && request.resource.data.preferences.favoriteIngredients.hasOnly(['ayam', 'ikan', 'telur', 'tempe', 'tahu', 'susu', 'kacang', 'oat', 'sayur'])
+        && request.resource.data.preferences.excludedIngredients is list
+        && request.resource.data.preferences.excludedIngredients.size() <= 20
+        && request.resource.data.preferences.excludedIngredients.hasOnly(['ayam', 'ikan', 'telur', 'tempe', 'tahu', 'susu', 'kacang', 'oat', 'sayur'])
+        && (request.resource.data.preferences.dailyFoodBudget == null || (
+          request.resource.data.preferences.dailyFoodBudget is int
+          && request.resource.data.preferences.dailyFoodBudget >= 5000
+          && request.resource.data.preferences.dailyFoodBudget <= 1000000
+        ));
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
