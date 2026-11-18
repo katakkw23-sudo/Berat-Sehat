@@ -8,7 +8,7 @@ export const contents: ContentItem[] = [
     type: 'Edukasi',
     target: 'Umum',
     summary: 'Memahami kebutuhan energi tubuh dan cara membaca hasil kalkulator kalori.',
-    coverImage: 'https://images.pexels.com/photos/5622193/pexels-photo-5622193.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    coverImage: 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
     estimatedDuration: 'Bacaan 5 menit',
     body: [
       'BMR (Basal Metabolic Rate) adalah jumlah energi yang dibutuhkan tubuh untuk fungsi dasar saat istirahat, seperti bernapas, menjaga suhu tubuh, dan memompa darah.',

@@ -19,44 +19,121 @@ const localStorageMode = computed(() => store.state.user.persistenceMode === 'lo
 const anonymousAccount = computed(() => store.state.user.anonymousAccount)
 
 const benefits = [
-  { icon: 'estimate', title: 'Estimasi yang jelas', text: 'Lihat kebutuhan energi harian dan target kalori yang dihitung dari data tubuh kamu.' },
-  { icon: 'meal', title: 'Menu dari bahan lokal', text: 'Contoh makan dari tempe, telur, sayur, dan nasi yang mudah ditemukan dan terjangkau.' },
-  { icon: 'progress', title: 'Progres yang bisa dipantau', text: 'Catat checklist harian dan berat badan untuk melihat tren, bukan hanya satu angka.' },
+  {
+    icon: 'estimate',
+    title: 'Estimasi yang jelas',
+    text: 'Lihat kebutuhan energi harian dan target kalori yang dihitung dari data tubuh kamu.',
+    link: '#kalkulator',
+  },
+  {
+    icon: 'meal',
+    title: 'Menu dari bahan lokal',
+    text: 'Contoh makan dari tempe, telur, sayur, dan nasi yang mudah ditemukan dan terjangkau.',
+    link: '/program',
+  },
+  {
+    icon: 'progress',
+    title: 'Progres yang bisa dipantau',
+    text: 'Catat checklist harian dan berat badan untuk melihat tren, bukan hanya satu angka.',
+    link: '/explore',
+  },
 ]
-
 </script>
 
 <template>
-  <div>
+  <div class="home-page">
+    <!-- Hero Section -->
     <section class="hero">
       <img
         class="hero-image"
-        src="https://images.pexels.com/photos/8032970/pexels-photo-8032970.jpeg?auto=compress&cs=tinysrgb&w=1800"
-        alt=""
-        aria-hidden="true"
+        src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1800"
+        alt="Hidangan sehat dan bahan makanan bernutrisi"
         fetchpriority="high"
         decoding="async"
       />
       <div class="container hero-inner">
-        <span class="eyebrow">Kebiasaan sehat untuk keseharianmu</span>
-        <h1>Sehat itu perjalanan, bukan lomba.</h1>
-        <p class="hero-text">
-          Atur makan dan gerak dengan menu lokal, latihan pemula, serta langkah yang terasa realistis. Rekomendasi kalori
-          personal tersedia untuk usia 18 tahun ke atas.
-        </p>
-        <div class="hero-actions">
-          <RouterLink to="/program" class="btn btn-primary">Mulai program</RouterLink>
-          <a href="#kalkulator" class="btn btn-hero-outline">Hitung kebutuhan kalori</a>
+        <!-- Hero Left Column -->
+        <div class="hero-content">
+          <span class="eyebrow hero-eyebrow">Kebiasaan sehat untuk keseharianmu</span>
+          <h1>Sehat itu perjalanan, bukan lomba.</h1>
+          <p class="hero-text">
+            Atur makan dan gerak dengan menu lokal, latihan pemula, serta langkah yang terasa realistis. Rekomendasi kalori
+            personal tersedia untuk usia 18 tahun ke atas.
+          </p>
+          <div class="hero-actions">
+            <RouterLink to="/program" class="btn btn-primary hero-btn-main">Mulai program</RouterLink>
+            <a href="#kalkulator" class="btn btn-hero-outline">Hitung kebutuhan kalori</a>
+          </div>
+
+          <!-- Hero Big Bold Stats -->
+          <div class="hero-stats" aria-label="Statistik BeratSehat">
+            <div class="hero-stat-card">
+              <span class="hero-stat-number">10</span>
+              <span class="hero-stat-label">menu harian</span>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat-card">
+              <span class="hero-stat-number">10</span>
+              <span class="hero-stat-label">latihan pemula</span>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat-card">
+              <span class="hero-stat-number">1</span>
+              <span class="hero-stat-label">langkah hari ini</span>
+            </div>
+          </div>
         </div>
-        <div class="hero-points" aria-label="Fitur BeratSehat">
-          <span><strong>10</strong> menu harian</span>
-          <span><strong>10</strong> latihan pemula</span>
-          <span><strong>1</strong> langkah hari ini</span>
+
+        <!-- Hero Right Column: Visual Preview Card -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-preview-card">
+            <div class="preview-header">
+              <span class="preview-badge">
+                <span class="preview-dot"></span>
+                Inspirasi Menu Hari Ini
+              </span>
+              <span class="preview-chip">Lokal Sehat</span>
+            </div>
+            <div class="preview-body">
+              <div class="preview-meal-pic">
+                <img
+                  src="https://images.pexels.com/photos/36982092/pexels-photo-36982092.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Inspirasi menu lokal sehat"
+                  loading="lazy"
+                />
+              </div>
+              <div class="preview-meta">
+                <h4>Nasi Ayam Lalap & Sayur</h4>
+                <p class="preview-kcal">~520 kkal <span>· Porsi Seimbang</span></p>
+                <div class="preview-nutri-tags">
+                  <span>Protein 32g</span>
+                  <span>Karbo 60g</span>
+                  <span>Serat 8g</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Progress Ring snippet -->
+            <div class="preview-ring-box">
+              <div class="ring-container">
+                <svg class="progress-ring-svg" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="20" class="ring-bg" />
+                  <circle cx="24" cy="24" r="20" class="ring-fill" />
+                </svg>
+                <span class="ring-percentage">75%</span>
+              </div>
+              <div class="ring-details">
+                <strong>Target Rutinitas Hari Ini</strong>
+                <span>3 dari 4 checklist selesai</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section goals-section">
+    <!-- Goals Section: White background -->
+    <section class="section section-white goals-section">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Pilih tujuan</span>
@@ -67,11 +144,15 @@ const benefits = [
       </div>
     </section>
 
-    <section v-if="localStorageMode || anonymousAccount === true" class="account-section">
-      <div class="container"><AccountAccess /></div>
+    <!-- Optional Account Section -->
+    <section v-if="localStorageMode || anonymousAccount === true" class="section section-white account-section">
+      <div class="container">
+        <AccountAccess />
+      </div>
     </section>
 
-    <section v-if="profile" class="section dashboard-section">
+    <!-- Dashboard Section (if profile): Light Green background -->
+    <section v-if="profile" class="section section-light-green dashboard-section">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Ruang pribadi</span>
@@ -82,7 +163,8 @@ const benefits = [
       </div>
     </section>
 
-    <section v-if="profile" class="section section-muted progress-section">
+    <!-- Progress Section (if profile): White background -->
+    <section v-if="profile" class="section section-white progress-section">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Kebiasaan dan tren</span>
@@ -102,7 +184,8 @@ const benefits = [
       </div>
     </section>
 
-    <section id="kalkulator" class="section tools-section">
+    <!-- Tools & Calculator Section: Light Green background -->
+    <section id="kalkulator" class="section section-light-green tools-section">
       <div class="container">
         <div class="section-head tools-head">
           <span class="eyebrow">Alat bantu</span>
@@ -111,14 +194,34 @@ const benefits = [
         </div>
         <div class="tools-grid">
           <section class="tool-panel">
-            <div class="tool-title"><span class="tool-index">01</span><div><h3>Indeks massa tubuh</h3><p class="muted">Skrining BMI dan rentang berat sehat.</p></div></div>
+            <div class="tool-title">
+              <span class="tool-index">01</span>
+              <div>
+                <h3>Indeks massa tubuh</h3>
+                <p class="muted">Skrining BMI dan rentang berat sehat.</p>
+              </div>
+            </div>
             <BmiCalculator />
           </section>
           <section class="tool-panel">
-            <div class="tool-title"><span class="tool-index">02</span><div><h3>Estimasi kalori harian</h3><p class="muted">BMR, TDEE, dan target sesuai profil.</p></div></div>
+            <div class="tool-title">
+              <span class="tool-index">02</span>
+              <div>
+                <h3>Estimasi kalori harian</h3>
+                <p class="muted">BMR, TDEE, dan target sesuai profil.</p>
+              </div>
+            </div>
             <CalorieCalculator />
             <details class="preferences-details">
-              <summary>Sesuaikan pilihan bahan makanan</summary>
+              <summary class="preferences-btn">
+                <svg viewBox="0 0 20 20" class="pref-icon" aria-hidden="true">
+                  <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Sesuaikan pilihan bahan makanan</span>
+                <svg viewBox="0 0 20 20" class="chevron-icon" aria-hidden="true">
+                  <path d="m6 8 4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </summary>
               <div class="preferences-body"><ProfilePreferences /></div>
             </details>
           </section>
@@ -126,15 +229,17 @@ const benefits = [
       </div>
     </section>
 
-    <section class="section">
+    <!-- Focal Point Section: Dark Green background with white text -->
+    <section class="section section-dark-green features-focal-section">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">BeratSehat</span>
+          <span class="eyebrow eyebrow-light">Langkah terarah</span>
           <h2>Langkah sehat yang mudah dipahami</h2>
+          <p>Mulai perubahan gaya hidup sehat dengan panduan yang jelas, realistis, dan ramah kantong.</p>
         </div>
         <div class="grid grid-3">
-          <article v-for="benefit in benefits" :key="benefit.title" class="card benefit">
-            <span class="benefit-icon" aria-hidden="true">
+          <article v-for="benefit in benefits" :key="benefit.title" class="card benefit-card">
+            <div class="benefit-icon" aria-hidden="true">
               <svg v-if="benefit.icon === 'estimate'" viewBox="0 0 24 24">
                 <path d="M4 19h16M7 16V9m5 7V5m5 11v-4" />
               </svg>
@@ -144,9 +249,15 @@ const benefits = [
               <svg v-else viewBox="0 0 24 24">
                 <path d="M4 17 9 12l3 3 8-8M14 7h6v6" />
               </svg>
-            </span>
+            </div>
             <h3>{{ benefit.title }}</h3>
-            <p class="muted">{{ benefit.text }}</p>
+            <p>{{ benefit.text }}</p>
+            <RouterLink v-if="benefit.link.startsWith('/')" :to="benefit.link" class="benefit-link">
+              Pelajari &rarr;
+            </RouterLink>
+            <a v-else :href="benefit.link" class="benefit-link">
+              Pelajari &rarr;
+            </a>
           </article>
         </div>
       </div>
@@ -155,14 +266,20 @@ const benefits = [
 </template>
 
 <style scoped>
+.home-page {
+  overflow-x: hidden;
+}
+
+/* Hero Section */
 .hero {
   position: relative;
   isolation: isolate;
   display: flex;
   align-items: center;
-  min-height: 400px;
+  min-height: 520px;
   overflow: hidden;
-  background: #183b2c;
+  background: #0f271b;
+  padding: 40px 0;
 }
 
 .hero::before {
@@ -170,7 +287,7 @@ const benefits = [
   z-index: -1;
   inset: 0;
   content: '';
-  background: rgba(14, 35, 25, 0.56);
+  background: linear-gradient(135deg, rgba(10, 26, 18, 0.93) 0%, rgba(15, 39, 27, 0.86) 55%, rgba(12, 33, 23, 0.74) 100%);
 }
 
 .hero-image {
@@ -180,257 +297,524 @@ const benefits = [
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 38%;
+  object-position: center 42%;
 }
 
 .hero-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  max-width: 1200px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 36px;
   color: var(--neutral-0);
 }
 
-.hero-inner > * {
-  max-width: 700px;
+@media (min-width: 980px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.85fr);
+    gap: 48px;
+  }
 }
 
-.hero-inner .eyebrow {
-  color: #f2f7ed;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-}
-
-.hero-inner h1 {
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
   max-width: 680px;
+}
+
+.hero-eyebrow {
+  color: #e2f5e8;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.hero-content h1 {
   margin: 0;
   font-size: 46px;
-  line-height: 1.06;
+  line-height: 1.15;
+  color: #ffffff;
 }
 
 .hero-text {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.86);
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
-  max-width: 600px;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 2px;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.hero-btn-main {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .btn-hero-outline {
   color: var(--neutral-0);
-  border-color: rgba(255, 255, 255, 0.66);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .btn-hero-outline:hover {
   color: var(--neutral-900);
   background: var(--neutral-0);
+  border-color: var(--neutral-0);
 }
 
-.hero-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 24px;
-  margin-top: 8px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 13px;
-}
-
-.hero-points strong {
-  color: var(--neutral-0);
-  font-size: 17px;
-}
-
-.benefit {
-  min-height: 196px;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-}
-
-.benefit:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary-100);
-  box-shadow: 0 14px 30px rgba(27, 48, 32, 0.1);
-}
-
-.benefit-icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  background: var(--primary-50);
-  color: var(--primary-700);
-}
-
-.benefit-icon svg {
-  width: 23px;
-  height: 23px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.benefit h3 {
-  font-size: 18px;
-}
-
-.goals-section .section-head {
-  max-width: 720px;
-}
-
-.goals-section { padding-top: 48px; }
-
-.setup-state {
-  padding-top: 10px;
-}
-
-.cloud-note {
+/* Big bold stats */
+.hero-stats {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0;
-  padding: 10px 13px;
-  border: 1px solid #e8dfc7;
-  border-radius: 12px;
-  background: #fffcf4;
-  color: #705c32;
-  font-size: 13px;
+  gap: 20px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
 }
 
-.cloud-copy { display: grid; flex: 1; gap: 2px; min-width: 0; }
-.cloud-copy strong { color: var(--neutral-900); font-size: 13px; }
-.sync-button { flex: 0 0 auto; min-height: 38px; padding: 0 12px; border: 1px solid #d5c9a9; border-radius: 8px; background: white; color: #66542e; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
-.sync-button:hover { background: #f7f0dd; }
-.sync-button:disabled { opacity: .6; cursor: wait; }
-.account-section { padding-top: 12px; }
-.cloud-mark { display: grid; flex: 0 0 19px; place-items: center; width: 19px; height: 19px; border-radius: 50%; background: #f0e5c7; font-size: 12px; font-weight: 700; }
+.hero-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
+.hero-stat-number {
+  font-size: 34px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: capitalize;
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Hero Visual Element (Right side) */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-preview-card {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #ffffff;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #dcfce7;
+}
+
+.preview-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.preview-chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.preview-body {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.preview-meal-pic {
+  width: 74px;
+  height: 74px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.preview-meal-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-meta h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.preview-kcal {
+  font-size: 13px;
+  font-weight: 600;
+  color: #86efac;
+  margin: 0 0 6px;
+}
+
+.preview-kcal span {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+}
+
+.preview-nutri-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preview-nutri-tags span {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 7px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.preview-ring-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 12px;
+}
+
+.ring-container {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.progress-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 4;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: #4ade80;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 125;
+  stroke-dashoffset: 31;
+}
+
+.ring-percentage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.ring-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ring-details strong {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.ring-details span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Tools Section (BMI & Calorie Calculators) */
 .tools-section {
-  background: #f0f4ef;
+  background: #edf5f0;
 }
 
 .tools-head {
   max-width: 740px;
 }
 
-.tools-head .eyebrow {
-  margin-bottom: 12px;
-}
-
 .tools-grid {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 28px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .tools-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
 }
 
 .tool-panel {
   min-width: 0;
+  width: 100%;
 }
 
 .tool-title {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 16px;
 }
 
 .tool-index {
   display: grid;
-  flex: 0 0 38px;
+  flex: 0 0 40px;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   background: var(--primary-100);
   color: var(--primary-700);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 800;
 }
 
 .tool-title h3 {
   margin: 0 0 4px;
-  font-size: 19px;
+  font-size: 20px;
 }
 
 .tool-title p {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
 }
 
+/* Preferences Outline Button (Point 10) */
 .preferences-details {
-  margin-top: 16px;
-  padding: 14px 0 0;
-  border-top: 1px solid var(--neutral-200);
+  margin-top: 20px;
 }
 
-.preferences-details summary {
+.preferences-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1.5px solid var(--primary-600);
+  border-radius: var(--radius-btn);
+  background: var(--neutral-0);
   color: var(--primary-700);
   font-weight: 700;
+  font-size: 14px;
   cursor: pointer;
+  list-style: none;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.preferences-btn::-webkit-details-marker {
+  display: none;
+}
+
+.preferences-btn:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-700);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(23, 79, 50, 0.12);
+}
+
+.pref-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.chevron-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+.preferences-details[open] .chevron-icon {
+  transform: rotate(180deg);
 }
 
 .preferences-body {
-  padding-top: 14px;
+  padding-top: 16px;
 }
 
-.benefit p {
-  margin: 0;
+/* Focal Point: Langkah Sehat (Points 8 & 11) */
+.features-focal-section {
+  background: #113423;
+  color: #ffffff;
 }
 
-.setup-state p {
-  margin-bottom: 0;
+.eyebrow-light {
+  color: #d1fae5;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
-@media (min-width: 1120px) {
-  .tools-grid {
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-    align-items: start;
-    gap: 24px;
-  }
+.benefit-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  color: var(--neutral-900);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 32px 28px;
+  border-radius: var(--radius-card);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
 
-@media (max-width: 700px) {
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+}
+
+.benefit-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 22px;
+  border-radius: 16px;
+  background: var(--primary-100);
+  color: var(--primary-700);
+  flex-shrink: 0;
+}
+
+.benefit-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.benefit-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--neutral-900);
+}
+
+.benefit-card p {
+  color: var(--neutral-600);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+
+.benefit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-600);
+  transition: all var(--transition-base);
+  margin-top: auto;
+}
+
+.benefit-link:hover {
+  color: var(--primary-700);
+  transform: translateX(3px);
+}
+
+.account-section {
+  padding-top: 0;
+}
+
+.insights-wrap {
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
   .hero {
-    min-height: 370px;
+    min-height: auto;
+    padding: 36px 0;
   }
 
-  .hero-image {
-    object-position: 61% center;
-  }
-
-  .hero-inner {
-    gap: 9px;
-    padding-top: 22px;
-    padding-bottom: 22px;
-  }
-
-  .hero-inner h1 {
+  .hero-content h1 {
     font-size: 32px;
   }
 
   .hero-text {
-    font-size: 14px;
+    font-size: 15px;
   }
 
-  .hero-points {
+  .hero-stats {
+    gap: 12px;
+    padding-top: 14px;
+  }
+
+  .hero-stat-number {
+    font-size: 26px;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+  }
+
+  .hero-visual {
     display: none;
+  }
+
+  .benefit-card {
+    padding: 24px 20px;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .hero-actions {
-    align-items: stretch;
     flex-direction: column;
     width: 100%;
   }
@@ -439,22 +823,12 @@ const benefits = [
     width: 100%;
   }
 
-  .hero-inner h1 { font-size: 30px; }
-  .goals-section { padding-top: 24px; }
-  .goals-section .section-head h2 { font-size: 23px; }
-  .goals-section .section-head p { font-size: 13px; }
-
-  .tool-title {
-    gap: 10px;
+  .hero-stats {
+    justify-content: space-between;
   }
 
-  .cloud-note { align-items: flex-start; flex-wrap: wrap; }
-  .cloud-copy { flex-basis: calc(100% - 34px); }
-  .sync-button { margin-left: 29px; }
-
-  .goals-section { padding-top: 26px; }
-  .goals-section .section-head { margin-bottom: 16px; }
-  .goals-section .section-head h2 { font-size: 24px; }
-  .goals-section .section-head p { font-size: 13px; }
+  .hero-stat-divider {
+    height: 28px;
+  }
 }
 </style>

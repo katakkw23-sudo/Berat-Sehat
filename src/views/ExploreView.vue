@@ -78,12 +78,15 @@ function resetFilters() {
               v-for="option in TARGET_OPTIONS"
               :key="option"
               type="button"
-              class="chip"
+              class="chip filter-chip"
               :class="{ active: target === option }"
               :aria-pressed="target === option"
               @click="target = option"
             >
-              {{ option }}
+              <svg v-if="target === option" class="check-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" fill="currentColor"/>
+              </svg>
+              <span>{{ option }}</span>
             </button>
           </div>
         </div>
@@ -95,12 +98,15 @@ function resetFilters() {
               v-for="option in TYPE_OPTIONS"
               :key="option"
               type="button"
-              class="chip"
+              class="chip filter-chip"
               :class="{ active: type === option }"
               :aria-pressed="type === option"
               @click="type = option"
             >
-              {{ option }}
+              <svg v-if="type === option" class="check-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" fill="currentColor"/>
+              </svg>
+              <span>{{ option }}</span>
             </button>
           </div>
         </div>
@@ -141,6 +147,25 @@ function resetFilters() {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.filter-chip {
+  min-height: 40px;
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.filter-chip.active {
+  background: var(--primary-600);
+  border-color: var(--primary-600);
+  color: var(--neutral-0);
+  box-shadow: 0 3px 10px rgba(40, 119, 75, 0.25);
+}
+
+.check-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .chip-row {

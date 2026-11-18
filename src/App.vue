@@ -4,6 +4,7 @@ import { useStore } from 'vuex'
 import type { RootState } from './store'
 
 const store = useStore<RootState>()
+const isDev = import.meta.env.DEV
 const syncNeedsAttention = computed(() => store.state.user.persistenceMode === 'local' || store.state.user.status === 'error')
 const syncBusy = computed(() => store.state.user.status === 'loading')
 const syncMessage = computed(() => store.state.user.syncError)
@@ -57,11 +58,21 @@ const navLinks = [
 
     <aside v-if="syncNeedsAttention" class="sync-status" role="status">
       <div class="container sync-status-inner">
-        <span class="sync-status-mark" aria-hidden="true">i</span>
-        <p><strong>{{ syncTitle }}</strong> {{ syncMessage || 'Belum tersinkron ke perangkat lain.' }}</p>
-        <button type="button" class="sync-retry" :disabled="syncBusy" @click="retrySync">
-          {{ syncBusy ? 'Menyinkronkan...' : 'Coba sinkronkan' }}
-        </button>
+        <template v-if="isDev">
+          <span class="sync-status-mark" aria-hidden="true">i</span>
+          <p><strong>{{ syncTitle }}</strong> {{ syncMessage || 'Belum tersinkron ke perangkat lain.' }}</p>
+          <button type="button" class="sync-retry" :disabled="syncBusy" @click="retrySync">
+            {{ syncBusy ? 'Menyinkronkan...' : 'Coba sinkronkan' }}
+          </button>
+        </template>
+        <template v-else>
+          <span class="sync-status-mark sync-status-mark-prod" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+              <path d="M13.8 4.2a1 1 0 0 1 0 1.4l-6.5 6.5a1 1 0 0 1-1.4 0L2.7 8.9a1 1 0 1 1 1.4-1.4l2.5 2.5 5.8-5.8a1 1 0 0 1 1.4 0Z"/>
+            </svg>
+          </span>
+          <p class="sync-prod-note">Data tersimpan di perangkat ini</p>
+        </template>
       </div>
     </aside>
 
@@ -113,11 +124,13 @@ const navLinks = [
 }
 
 .sync-status { border-bottom: 1px solid #e8dfc7; background: #fffcf4; color: #705c32; }
-.sync-status-inner { display: flex; min-height: 48px; align-items: center; gap: 10px; padding-top: 6px; padding-bottom: 6px; }
-.sync-status-mark { display: grid; flex: 0 0 20px; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #f0e5c7; font-size: 12px; font-weight: 700; }
-.sync-status-inner p { flex: 1; margin: 0; font-size: 12px; }
+.sync-status-inner { display: flex; min-height: 42px; align-items: center; gap: 10px; padding-top: 6px; padding-bottom: 6px; }
+.sync-status-mark { display: grid; flex: 0 0 20px; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #f0e5c7; font-size: 12px; font-weight: 700; color: #4e4127; }
+.sync-status-mark-prod { background: var(--primary-100); color: var(--primary-700); }
+.sync-prod-note { font-size: 13px; font-weight: 600; color: var(--primary-700); margin: 0; }
+.sync-status-inner p { flex: 1; margin: 0; font-size: 13px; }
 .sync-status-inner strong { color: #4e4127; }
-.sync-retry { flex: 0 0 auto; min-height: 36px; border: 1px solid #d5c9a9; border-radius: 8px; padding: 0 12px; background: white; color: #66542e; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.sync-retry { flex: 0 0 auto; min-height: 34px; border: 1px solid #d5c9a9; border-radius: 8px; padding: 0 12px; background: white; color: #66542e; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
 .sync-retry:hover { background: #f7f0dd; }
 .sync-retry:disabled { opacity: .6; cursor: wait; }
 

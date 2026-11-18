@@ -174,7 +174,10 @@ async function saveProfile() {
               :aria-pressed="form.goal === option.value"
               @click="form.goal = option.value"
             >
-              {{ option.label }}
+              <svg v-if="form.goal === option.value" class="check-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" fill="currentColor"/>
+              </svg>
+              <span>{{ option.label }}</span>
             </button>
           </div>
           <span v-if="visibleErrors.goal" class="field-error">{{ visibleErrors.goal }}</span>
@@ -224,7 +227,7 @@ async function saveProfile() {
 }
 
 .form {
-  padding: 32px;
+  padding: 28px;
 }
 
 .form-grid {
@@ -238,18 +241,36 @@ async function saveProfile() {
 }
 
 .field {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .goal-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
 
 .goal-chip {
-  flex: 1 1 160px;
+  flex: 1 1 140px;
   justify-content: center;
+  min-height: 46px;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius-btn);
+  transition: all var(--transition-base);
+}
+
+.goal-chip.active {
+  background: var(--primary-600);
+  border-color: var(--primary-600);
+  color: var(--neutral-0);
+  box-shadow: 0 4px 12px rgba(40, 119, 75, 0.25);
+}
+
+.check-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 .checkbox {

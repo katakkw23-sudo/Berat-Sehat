@@ -42,47 +42,198 @@ async function saveBudget() {
 </script>
 
 <template>
-  <section class="budget-panel" aria-labelledby="budget-title">
+  <section class="budget-panel card" aria-labelledby="budget-title">
+    <!-- Cost Header -->
     <div class="budget-heading">
-      <div><span class="field-label">Perkiraan biaya menu</span><h3 id="budget-title">{{ formatRupiah(props.estimatedCost) }} <span>/ hari</span></h3></div>
-      <span class="badge">Harga perkiraan</span>
-    </div>
-    <form class="budget-form" novalidate @submit.prevent="saveBudget">
-      <div class="field">
-        <label for="daily-food-budget">Anggaran makan kamu per hari</label>
-        <div class="budget-input-wrap"><span>Rp</span><input id="daily-food-budget" v-model="budgetInput" class="input" type="number" min="5000" max="1000000" step="1000" inputmode="numeric" placeholder="Contoh: 40000" /></div>
+      <div>
+        <span class="field-label">Perkiraan biaya menu</span>
+        <h3 id="budget-title">{{ formatRupiah(props.estimatedCost) }} <span>/ hari</span></h3>
       </div>
-      <button type="submit" class="btn btn-outline" :disabled="saving">{{ saving ? 'Menyimpan...' : 'Simpan anggaran' }}</button>
+      <span class="badge">Harga pasar lokal</span>
+    </div>
+
+    <!-- Divider separating cost card and budget input -->
+    <div class="budget-divider" aria-hidden="true"></div>
+
+    <!-- Budget Input Form -->
+    <form class="budget-form" novalidate @submit.prevent="saveBudget">
+      <div class="field budget-field">
+        <label for="daily-food-budget">Anggaran makan kamu per hari</label>
+        <div class="budget-input-wrap">
+          <span class="currency-prefix">Rp</span>
+          <input
+            id="daily-food-budget"
+            v-model="budgetInput"
+            class="input budget-input"
+            type="number"
+            min="5000"
+            max="1000000"
+            step="1000"
+            inputmode="numeric"
+            placeholder="Contoh: 40000"
+          />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-outline budget-save-btn" :disabled="saving">
+        {{ saving ? 'Menyimpan...' : 'Simpan anggaran' }}
+      </button>
     </form>
-    <p v-if="hasBudget" class="budget-comparison" :class="difference >= 0 ? 'within-budget' : 'over-budget'">
-      {{ difference >= 0 ? `Perkiraan sisa ${formatRupiah(difference)}.` : `Menu sekitar ${formatRupiah(Math.abs(difference))} di atas anggaran.` }}
-      Sesuaikan pilihan bahan atau porsi sesuai kebutuhan.
-    </p>
-    <p v-else class="muted budget-note">Biaya dapat berbeda menurut daerah dan harga pasar. Simpan anggaran untuk membandingkan menu.</p>
+
+    <!-- Over Budget Alert with Icon and Larger Text (Point 12) -->
+    <div v-if="hasBudget && difference < 0" class="alert alert-warning budget-alert" role="status">
+      <svg class="budget-alert-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+      </svg>
+      <div class="budget-alert-content">
+        <strong class="budget-alert-title">Menu melebihi target anggaran</strong>
+        <p class="budget-alert-text">
+          Menu sekitar <strong>{{ formatRupiah(Math.abs(difference)) }}</strong> di atas anggaran harianmu. Kamu bisa memilih bahan alternatif hemat di menu bawah.
+        </p>
+      </div>
+    </div>
+
+    <!-- Within Budget Notification -->
+    <div v-else-if="hasBudget && difference >= 0" class="alert alert-success budget-alert" role="status">
+      <svg class="budget-alert-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      <div class="budget-alert-content">
+        <strong class="budget-alert-title">Sesuai anggaran harian</strong>
+        <p class="budget-alert-text">Perkiraan sisa hemat <strong>{{ formatRupiah(difference) }}</strong> per hari.</p>
+      </div>
+    </div>
+
+    <p v-else class="muted budget-note">Biaya dapat berbeda menurut daerah dan harga pasar. Simpan anggaran harian untuk membandingkan biaya menu.</p>
+
     <p v-if="errorText" class="alert alert-error" role="alert">{{ errorText }}</p>
     <p v-if="successText" class="alert alert-success" role="status">{{ successText }}</p>
   </section>
 </template>
 
 <style scoped>
-.budget-panel { margin: 16px 0 8px; padding: 16px; border: 1px solid var(--neutral-200); border-radius: 8px; background: var(--neutral-50); }
-.budget-heading, .budget-form { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.budget-heading h3 { margin: 4px 0 0; font-size: 22px; color: var(--primary-700); }
-.budget-heading h3 span { color: var(--neutral-500); font-size: 13px; font-weight: 500; }
-.budget-form { align-items: flex-end; margin-top: 14px; }
-.budget-form .field { flex: 1; margin: 0; }
-.budget-input-wrap { position: relative; }
-.budget-input-wrap > span { position: absolute; top: 12px; left: 13px; color: var(--neutral-500); font-size: 14px; }
-.budget-input-wrap .input { padding-left: 38px; }
-.budget-form .btn { flex: 0 0 auto; min-height: 48px; padding: 0 16px; }
-.budget-comparison, .budget-note { margin: 12px 0 0; font-size: 13px; }
-.within-budget { color: var(--success-700); }
-.over-budget { color: var(--warning-700); }
-.budget-panel .alert { margin: 12px 0 0; padding: 10px 12px; font-size: 13px; }
+.budget-panel {
+  margin: 20px 0;
+  padding: 24px;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-card);
+  background: var(--neutral-50);
+}
 
-@media (max-width: 520px) {
-  .budget-heading { align-items: flex-start; }
-  .budget-form { align-items: stretch; flex-direction: column; }
-  .budget-form .btn { width: 100%; }
+.budget-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.budget-heading h3 {
+  margin: 6px 0 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary-700);
+}
+
+.budget-heading h3 span {
+  color: var(--neutral-500);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.budget-divider {
+  height: 1px;
+  background: var(--neutral-200);
+  margin: 20px 0;
+}
+
+.budget-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.budget-field {
+  flex: 1;
+  margin: 0;
+}
+
+.budget-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-prefix {
+  position: absolute;
+  left: 14px;
+  color: var(--neutral-500);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.budget-input {
+  padding-left: 42px;
+}
+
+.budget-save-btn {
+  flex: 0 0 auto;
+  min-height: 48px;
+  padding: 0 20px;
+}
+
+/* Alert styling for over/within budget */
+.budget-alert {
+  margin-top: 18px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 12px;
+}
+
+.budget-alert-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.budget-alert-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.budget-alert-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.budget-alert-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.budget-note {
+  margin: 16px 0 0;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .budget-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .budget-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .budget-save-btn {
+    width: 100%;
+  }
 }
 </style>

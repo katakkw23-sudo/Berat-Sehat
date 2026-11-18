@@ -41,7 +41,7 @@ function formatKg(value: number): string {
 
 <template>
   <div class="bmi-layout">
-    <form class="card" novalidate @submit.prevent="calculate">
+    <form class="card bmi-card" novalidate @submit.prevent="calculate">
       <div class="form-grid">
         <div class="field">
           <label for="bmi-gender">Jenis kelamin</label>
@@ -65,7 +65,9 @@ function formatKg(value: number): string {
         </div>
       </div>
       <p v-if="error" class="alert alert-error" role="alert">{{ error }}</p>
-      <button type="submit" class="btn btn-primary">Hitung BMI</button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Hitung BMI</button>
+      </div>
       <p class="muted note">Untuk usia di bawah 18 tahun, kategori BMI dewasa dan rentang berat ini tidak digunakan. Konsultasikan pertumbuhan dengan tenaga kesehatan.</p>
     </form>
 
@@ -75,7 +77,7 @@ function formatKg(value: number): string {
       <p class="category">{{ age < 18 ? 'Kategori dewasa tidak ditampilkan' : result.category }}</p>
       <template v-if="age >= 18">
         <p>Rentang berat berdasarkan BMI 18,5–24,9:</p>
-        <strong>{{ formatKg(result.minimumWeight) }}–{{ formatKg(result.maximumWeight) }} kg</strong>
+        <p class="range-highlight"><strong>{{ formatKg(result.minimumWeight) }}–{{ formatKg(result.maximumWeight) }} kg</strong></p>
         <p v-if="weightKg < result.minimumWeight" class="muted">Sekitar {{ formatKg(result.minimumWeight - weightKg) }} kg di bawah batas bawah rentang.</p>
         <p v-else-if="weightKg > result.maximumWeight" class="muted">Sekitar {{ formatKg(weightKg - result.maximumWeight) }} kg di atas batas atas rentang.</p>
         <p v-else class="muted">Berat saat ini berada dalam rentang BMI tersebut.</p>
@@ -88,49 +90,85 @@ function formatKg(value: number): string {
 
 <style scoped>
 .bmi-layout {
-  display: grid;
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.bmi-card {
+  padding: 28px;
+  width: 100%;
 }
 
 .form-grid {
   display: grid;
-  gap: 0 16px;
-  grid-template-columns: 1fr;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field {
+  margin-bottom: 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
 }
 
 .note {
   font-size: 14px;
-  margin: 20px 0 0;
+  line-height: 1.5;
+  margin: 18px 0 0;
 }
 
 .result {
-  align-self: start;
+  padding: 28px;
+  width: 100%;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .bmi-value {
-  margin: 12px 0 4px;
-  font-size: 32px;
-  font-weight: 700;
+  margin: 8px 0 4px;
+  font-size: 36px;
+  font-weight: 800;
   color: var(--primary-700);
 }
 
 .bmi-value span {
   font-size: 16px;
+  font-weight: 600;
 }
 
 .category {
   font-size: 18px;
   font-weight: 700;
+  margin-bottom: 12px;
 }
 
-@media (min-width: 700px) {
-  .bmi-layout {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
+.range-highlight {
+  font-size: 18px;
+  margin: 4px 0 8px;
+}
+
+@media (max-width: 520px) {
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 
-  .form-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .bmi-card,
+  .result {
+    padding: 20px;
+  }
+
+  .form-actions .btn {
+    width: 100%;
   }
 }
 </style>

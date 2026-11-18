@@ -40,36 +40,39 @@ const paths = [
   flex-direction: column;
   overflow: hidden;
   padding: 0;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border-radius: var(--radius-card);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .path-card:hover {
   transform: translateY(-4px);
   border-color: var(--primary-600);
-  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.12);
+  box-shadow: var(--shadow-hover);
 }
 
 .path-card h3 {
   margin: 12px 0 0;
-  font-size: 21px;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .path-card p {
   max-width: 440px;
-  margin: 8px 0 22px;
-  font-size: 14px;
+  margin: 8px 0 20px;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .path-image {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 8.5;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
 .path-content {
   display: flex;
-  min-height: 204px;
+  min-height: 190px;
   flex-direction: column;
   align-items: flex-start;
   padding: 24px;
@@ -78,19 +81,19 @@ const paths = [
 @media (min-width: 900px) {
   .path-card {
     display: grid;
-    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
-    min-height: 256px;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+    min-height: 250px;
   }
 
   .path-image {
     height: 100%;
-    min-height: 256px;
+    min-height: 250px;
     aspect-ratio: auto;
   }
 
   .path-content {
-    min-height: 256px;
-    padding: 22px;
+    min-height: 250px;
+    padding: 24px;
   }
 }
 
@@ -99,7 +102,10 @@ const paths = [
   display: inline-flex;
   gap: 8px;
   align-items: center;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-600);
+  transition: color var(--transition-base);
 }
 
 .path-link svg {
@@ -107,49 +113,42 @@ const paths = [
   height: 18px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.8;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-base);
 }
 
 .path-link:hover svg {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 @media (max-width: 600px) {
   .path-card {
-    display: grid;
-    grid-template-columns: 96px minmax(0, 1fr);
-    min-height: 154px;
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .path-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    min-height: auto;
   }
 
   .path-content {
     min-height: 0;
-    justify-content: center;
-    gap: 6px;
-    padding: 12px;
-  }
-
-  .path-image {
-    height: 100%;
-    min-height: 154px;
-    aspect-ratio: auto;
+    padding: 20px;
   }
 
   .path-card h3 {
-    margin: 4px 0 0;
-    font-size: 17px;
+    font-size: 19px;
   }
 
   .path-card p {
-    margin: 2px 0 8px;
-    font-size: 12px;
-    line-height: 1.4;
-  }
-
-  .path-link {
-    font-size: 12px;
+    font-size: 14px;
+    margin-bottom: 16px;
   }
 }
 </style>

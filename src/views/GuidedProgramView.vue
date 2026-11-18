@@ -303,8 +303,10 @@ async function toggleRecipeFavorite(goal: Goal, mealId: string, recipeName: stri
                   </select>
                   <span v-if="!alternativesFor(meal.id, meal.recipe.name).length" class="muted">Tidak ada alternatif yang cocok dengan bahan pilihan. Ubah preferensi di Beranda.</span>
                 </div>
-                <p class="meal-label">Bahan dan takaran</p>
-                <ul><li v-for="ingredient in meal.recipe.ingredients" :key="ingredient">{{ ingredient }}</li></ul>
+                <div class="meal-ingredients-wrap">
+                  <p class="meal-label">Bahan dan takaran</p>
+                  <ul class="meal-ingredients-list"><li v-for="ingredient in meal.recipe.ingredients" :key="ingredient">{{ ingredient }}</li></ul>
+                </div>
                 <p class="meal-method"><strong>Cara membuat:</strong> {{ meal.recipe.method }}</p>
               </article>
               <p v-if="favoriteError" class="alert alert-error" role="alert">{{ favoriteError }}</p>
@@ -368,7 +370,20 @@ async function toggleRecipeFavorite(goal: Goal, mealId: string, recipeName: stri
           <div class="field">
             <span class="field-label">Pilih tujuan</span>
             <div class="goal-tabs" role="group" aria-label="Pilih tujuan program">
-              <button v-for="option in goals" :key="option.value" type="button" class="chip" :class="{ active: goal === option.value }" :aria-pressed="goal === option.value" @click="goal = option.value; selectedProgramIndex = 0">{{ option.label }}</button>
+              <button
+                v-for="option in goals"
+                :key="option.value"
+                type="button"
+                class="chip goal-chip-btn"
+                :class="{ active: goal === option.value }"
+                :aria-pressed="goal === option.value"
+                @click="goal = option.value; selectedProgramIndex = 0"
+              >
+                <svg v-if="goal === option.value" class="check-icon" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" fill="currentColor"/>
+                </svg>
+                <span>{{ option.label }}</span>
+              </button>
             </div>
           </div>
           <div class="field duration-field">
@@ -477,10 +492,48 @@ async function toggleRecipeFavorite(goal: Goal, mealId: string, recipeName: stri
 .check-item input { width: 20px; height: 20px; accent-color: var(--primary-600); flex: 0 0 auto; }
 .check-item.done span { color: var(--neutral-500); text-decoration: line-through; }
 .next-button { margin-top: 20px; }
+.next-button:disabled {
+  background: var(--neutral-200);
+  color: var(--neutral-600);
+  border-color: var(--neutral-300);
+  opacity: 1;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  font-weight: 700;
+}
 .helper-text { margin: 10px 0 0; font-size: 13px; text-align: center; }
 .setup-card { margin-bottom: 24px; }
 .setup-card .field:last-child { margin-bottom: 0; }
-.goal-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.goal-tabs { display: flex; flex-wrap: wrap; gap: 10px; }
+.goal-chip-btn {
+  min-height: 44px;
+  font-weight: 700;
+  border-radius: var(--radius-btn);
+  transition: all var(--transition-base);
+}
+.goal-chip-btn.active {
+  background: var(--primary-600);
+  border-color: var(--primary-600);
+  color: var(--neutral-0);
+  box-shadow: 0 4px 12px rgba(40, 119, 75, 0.25);
+}
+.check-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.meal-ingredients-wrap {
+  margin: 14px 0;
+  padding: 14px 18px;
+  background: var(--neutral-50);
+  border: 1px solid var(--neutral-200);
+  border-radius: 12px;
+}
+.meal-ingredients-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
 .duration-control { display: flex; align-items: center; gap: 12px; max-width: 280px; }
 .duration-control .input { max-width: 120px; }
 .duration-control span { color: var(--neutral-500); font-size: 14px; }

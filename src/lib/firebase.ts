@@ -33,6 +33,9 @@ export function isFirebaseConfigured(): boolean {
 }
 
 export function getFirebaseConfigurationError(): string {
+  if (!import.meta.env.DEV) {
+    return 'Data tersimpan di perangkat ini.'
+  }
   const config = getFirebaseConfig()
   const missing = [
     ['VITE_FIREBASE_API_KEY', config.apiKey],
